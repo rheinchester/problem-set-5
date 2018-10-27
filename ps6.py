@@ -129,9 +129,9 @@ class Message(object):
         Returns: the message text (string) in which every character is shifted
              down the alphabet by the input shift
         '''
-        shift_dict = build_shift_dict(shift)
+        shift_dict = self.build_shift_dict(shift)
         shifted_message = ''
-        for letter in self.message:
+        for letter in self.message_text:
             try:
                 letter = shift_dict[letter]
             except KeyError:
@@ -159,7 +159,13 @@ class PlaintextMessage(Message):
         Hint: consider using the parent class constructor so less 
         code is repeated
         '''
-        pass #delete this line and replace with your code here
+        Message.__init__(self, text)
+        self.message_text = Message.get_message_text(self)
+        self.valid_words = Message.get_valid_words(self)
+        self.shift = shift
+        self.encrypting_dict = Message.build_shift_dict(self, shift)
+        self.message_text_encrypted = Message.apply_shift(self, shift)
+        
 
     def get_shift(self):
         '''
@@ -167,7 +173,7 @@ class PlaintextMessage(Message):
         
         Returns: self.shift
         '''
-        pass #delete this line and replace with your code here
+        return self.shift
 
     def get_encrypting_dict(self):
         '''
@@ -175,7 +181,7 @@ class PlaintextMessage(Message):
         
         Returns: a COPY of self.encrypting_dict
         '''
-        pass #delete this line and replace with your code here
+        return self.encrypting_dict[:]
 
     def get_message_text_encrypted(self):
         '''
@@ -183,7 +189,7 @@ class PlaintextMessage(Message):
         
         Returns: self.message_text_encrypted
         '''
-        pass #delete this line and replace with your code here
+        return self.message_text_encrypted
 
     def change_shift(self, shift):
         '''
@@ -196,7 +202,7 @@ class PlaintextMessage(Message):
 
          Returns: nothing
         '''
-        pass #delete this line and replace with your code here
+        self.shift = shift
 
 
 class CiphertextMessage(Message):
